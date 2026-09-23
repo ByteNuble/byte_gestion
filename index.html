@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Byte Gestión - Acceso</title>
+  <meta name="description" content="Byte Gestión — Sistema de gestión empresarial. Demo desarrollada por Byte Ñuble." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="login-body">
+
+  <main class="login-wrapper">
+
+    <!-- Panel izquierdo: marca -->
+    <section class="login-brand">
+      <div class="brand-logo">
+        <div class="brand-mark">B</div>
+        <div class="brand-text">
+          <span class="brand-name">BYTE ÑUBLE</span>
+          <span class="brand-sub">DESARROLLO DE SOFTWARE</span>
+        </div>
+      </div>
+
+      <div class="brand-copy">
+        <h1>Byte Gestión</h1>
+        <p>Sistema de gestión empresarial para pequeñas y medianas empresas.</p>
+      </div>
+
+      <ul class="brand-features">
+        <li>Control de productos y stock</li>
+        <li>Gestión de clientes</li>
+        <li>Registro de ventas</li>
+        <li>Reportes y business intelligence</li>
+      </ul>
+
+      <p class="brand-foot">Chillán · Ñuble · Chile</p>
+    </section>
+
+    <!-- Panel derecho: formulario -->
+    <section class="login-panel">
+      <div class="login-card">
+        <header class="login-head">
+          <h2>Iniciar sesión</h2>
+          <p>Accede al panel de demostración.</p>
+        </header>
+
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="username"
+              placeholder="demo@bytenuble.cl"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="password">Contraseña</label>
+            <div class="input-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                placeholder="••••••••"
+                required
+              />
+              <button type="button" class="toggle-pass" id="toggle-pass" aria-label="Mostrar contraseña">
+                Ver
+              </button>
+            </div>
+          </div>
+
+          <div id="login-error" class="alert alert-error" role="alert" hidden></div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+            Ingresar
+          </button>
+        </form>
+
+        <div class="demo-box">
+          <p class="demo-title">Cuenta demo</p>
+          <p class="demo-line"><span>Usuario</span><code>demo@bytenuble.cl</code></p>
+          <p class="demo-line"><span>Contraseña</span><code>demo1234</code></p>
+        </div>
+
+        <p class="login-note">
+          Demo pública. No ingresar información sensible.
+        </p>
+      </div>
+
+      <footer class="login-footer">
+        <span>© <span id="year"></span> Byte Ñuble</span>
+        <span>Demo · v1.0</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

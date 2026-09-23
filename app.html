@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Byte Gestión · Panel</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-body">
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark">B</div>
+        <div class="brand-text">
+          <span class="brand-name">BYTE ÑUBLE</span>
+          <span class="brand-sub">DESARROLLO DE SOFTWARE</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <p class="nav-label">Menú</p>
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">■</span><span>Dashboard</span></button>
+        <button class="nav-item" data-view="productos"><span class="nav-icon">■</span><span>Productos</span></button>
+        <button class="nav-item" data-view="clientes"><span class="nav-icon">■</span><span>Clientes</span></button>
+        <button class="nav-item" data-view="ventas"><span class="nav-icon">■</span><span>Ventas</span></button>
+        <button class="nav-item" data-view="reportes"><span class="nav-icon">■</span><span>Reportes</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <button class="nav-item" data-view="configuracion"><span class="nav-icon">■</span><span>Configuración</span></button>
+        <button class="nav-item nav-item-danger" id="btn-logout"><span class="nav-icon">■</span><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menu-btn" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-title">
+          <h1 id="view-title">Dashboard</h1>
+          <p id="view-subtitle">Resumen general del negocio</p>
+        </div>
+        <div class="topbar-user">
+          <div class="user-avatar">D</div>
+          <div class="user-info">
+            <span class="user-name">Cuenta demo</span>
+            <span class="user-mail">demo@bytenuble.cl</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="content" id="content">
+
+        <!-- ================= DASHBOARD ================= -->
+        <section class="view active" id="view-dashboard">
+          <div class="kpi-grid">
+            <div class="kpi-card"><p class="kpi-label">Ventas totales</p><p class="kpi-value" id="kpi-ventas">$0</p></div>
+            <div class="kpi-card"><p class="kpi-label">Pedidos</p><p class="kpi-value" id="kpi-pedidos">0</p></div>
+            <div class="kpi-card"><p class="kpi-label">Clientes</p><p class="kpi-value" id="kpi-clientes">0</p></div>
+            <div class="kpi-card"><p class="kpi-label">Productos</p><p class="kpi-value" id="kpi-productos">0</p></div>
+            <div class="kpi-card kpi-alert"><p class="kpi-label">Stock bajo</p><p class="kpi-value" id="kpi-stock-bajo">0</p></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-head"><h3>Ventas por mes</h3></div>
+              <div class="chart-box"><canvas id="chart-ventas-mes"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>Productos más vendidos</h3></div>
+              <div class="chart-box"><canvas id="chart-top-productos"></canvas></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Actividad reciente</h3></div>
+            <div id="actividad-reciente" class="activity-list"></div>
+          </div>
+        </section>
+
+        <!-- ================= PRODUCTOS ================= -->
+        <section class="view" id="view-productos">
+          <div class="toolbar">
+            <input type="text" id="buscar-producto" class="input-search" placeholder="Buscar producto…" />
+            <select id="filtro-categoria" class="input-select"><option value="">Todas las categorías</option></select>
+            <select id="filtro-estado" class="input-select">
+              <option value="">Todos los estados</option>
+              <option value="Disponible">Disponible</option>
+              <option value="Stock bajo">Stock bajo</option>
+              <option value="Agotado">Agotado</option>
+            </select>
+            <button class="btn btn-primary" id="btn-nuevo-producto">+ Nuevo producto</button>
+          </div>
+
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="productos-tabla"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= CLIENTES ================= -->
+        <section class="view" id="view-clientes">
+          <div class="toolbar">
+            <input type="text" id="buscar-cliente" class="input-search" placeholder="Buscar cliente…" />
+            <button class="btn btn-primary" id="btn-nuevo-cliente">+ Nuevo cliente</button>
+          </div>
+
+          <div class="card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th><th>Empresa</th><th>Email</th><th>Teléfono</th><th>Total comprado</th><th>Última compra</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="clientes-tabla"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= VENTAS ================= -->
+        <section class="view" id="view-ventas">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-head"><h3>Nueva venta</h3></div>
+              <div class="form-row">
+                <label>Cliente</label>
+                <select id="venta-cliente" class="input-select"></select>
+              </div>
+              <div class="form-row">
+                <label>Estado</label>
+                <select id="venta-estado" class="input-select">
+                  <option value="Pagada">Pagada</option>
+                  <option value="Pendiente">Pendiente</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label>Producto</label>
+                <select id="venta-producto" class="input-select"></select>
+              </div>
+              <div class="form-row form-row-inline">
+                <div>
+                  <label>Cantidad</label>
+                  <input type="number" id="venta-cantidad" class="input-text" value="1" min="1" />
+                </div>
+                <button class="btn btn-secondary" id="btn-agregar-carrito">Agregar</button>
+              </div>
+
+              <div id="carrito-items" class="carrito"></div>
+
+              <div class="carrito-total">
+                <span>Total</span>
+                <strong id="carrito-total">$0</strong>
+              </div>
+
+              <button class="btn btn-primary btn-block" id="btn-registrar-venta">Registrar venta</button>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Historial</h3></div>
+              <div class="table-scroll">
+                <table class="table">
+                  <thead>
+                    <tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th></th></tr>
+                  </thead>
+                  <tbody id="ventas-tabla"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= REPORTES ================= -->
+        <section class="view" id="view-reportes">
+          <div class="kpi-grid">
+            <div class="kpi-card"><p class="kpi-label">Ventas totales</p><p class="kpi-value" id="rep-ventas-total">$0</p></div>
+            <div class="kpi-card"><p class="kpi-label">Ticket promedio</p><p class="kpi-value" id="rep-ticket-promedio">$0</p></div>
+            <div class="kpi-card"><p class="kpi-label">Unidades vendidas</p><p class="kpi-value" id="rep-unidades">0</p></div>
+            <div class="kpi-card"><p class="kpi-label">Cantidad de ventas</p><p class="kpi-value" id="rep-ventas-cantidad">0</p></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card"><div class="card-head"><h3>Ventas por categoría</h3></div><div class="chart-box"><canvas id="chart-categoria"></canvas></div></div>
+            <div class="card"><div class="card-head"><h3>Evolución de ventas</h3></div><div class="chart-box"><canvas id="chart-evolucion"></canvas></div></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card"><div class="card-head"><h3>Stock por categoría</h3></div><div class="chart-box"><canvas id="chart-stock"></canvas></div></div>
+            <div class="card"><div class="card-head"><h3>Top 5 clientes</h3></div><div id="top-clientes" class="rank-list"></div></div>
+          </div>
+        </section>
+
+        <!-- ================= CONFIGURACIÓN ================= -->
+        <section class="view" id="view-configuracion">
+          <div class="card">
+            <div class="card-head"><h3>Datos de la demo</h3></div>
+            <p class="muted">Restaura los datos originales de la demostración. Se perderán todos los cambios que hayas hecho.</p>
+            <button class="btn btn-danger" id="btn-reset-demo">Restaurar datos demo</button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODAL PRODUCTO ================= -->
+  <div class="modal" id="modal-producto">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modal-producto-titulo">Nuevo producto</h3>
+        <button class="btn-icon" id="btn-cancelar-producto">✕</button>
+      </div>
+      <form id="form-producto">
+        <input type="hidden" id="prod-id" />
+        <div class="form-row"><label>Nombre</label><input type="text" id="prod-nombre" class="input-text" required /></div>
+        <div class="form-row"><label>Categoría</label><input type="text" id="prod-categoria" class="input-text" required /></div>
+        <div class="form-row"><label>Precio (CLP)</label><input type="number" id="prod-precio" class="input-text" min="0" required /></div>
+        <div class="form-row form-row-inline">
+          <div><label>Stock</label><input type="number" id="prod-stock" class="input-text" min="0" required /></div>
+          <div><label>Stock mínimo</label><input type="number" id="prod-stock-min" class="input-text" min="0" required /></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL CLIENTE ================= -->
+  <div class="modal" id="modal-cliente">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modal-cliente-titulo">Nuevo cliente</h3>
+        <button class="btn-icon" id="btn-cancelar-cliente">✕</button>
+      </div>
+      <form id="form-cliente">
+        <input type="hidden" id="cli-id" />
+        <div class="form-row"><label>Nombre</label><input type="text" id="cli-nombre" class="input-text" required /></div>
+        <div class="form-row"><label>Empresa</label><input type="text" id="cli-empresa" class="input-text" required /></div>
+        <div class="form-row"><label>Email</label><input type="email" id="cli-email" class="input-text" required /></div>
+        <div class="form-row"><label>Teléfono</label><input type="text" id="cli-telefono" class="input-text" /></div>
+        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chart.js (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="js/seed.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/productos.js"></script>
+  <script src="js/clientes.js"></script>
+  <script src="js/ventas.js"></script>
+  <script src="js/reportes.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
